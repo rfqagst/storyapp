@@ -30,5 +30,10 @@
     <string name="citizen_story">CITIZEN STORY</string>
     <string name="logout">Keluar</string>
     <string name="bahasa">Bahasa</string>
+    <string name="success_register">Registrasi Berhasil, Silahkan Login</string>
+    <string name="success_upload">Upload Berhasil</string>
+
+
+
 
 </resources>

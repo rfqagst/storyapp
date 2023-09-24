@@ -20,18 +20,25 @@ class SignupViewModel(private val repo: UserRepo) : ViewModel() {
     val errorMessage = MutableLiveData<String?>()
     val registerStatus: MutableLiveData<Boolean> = MutableLiveData()
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun register(username: String, email: String, password: String) {
         viewModelScope.launch {
             try {
+                _isLoading.value = true
                 val registerResponse = repo.register(username, email, password)
+                _isLoading.value = false
                 Log.d("SignupActivity", "Berhasil mendaftar: ${registerResponse.message}")
                 registerStatus.postValue(true)
             } catch (e: HttpException) {
+                _isLoading.value = false
                 val jsonInString = e.response()?.errorBody()?.string()
                 val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
                 errorMessage.postValue(errorBody.message)
                 registerStatus.postValue(false)
             } catch (e: Exception) {
+                _isLoading.value = false
                 Log.e("SignupActivity", "Kesalahan: ${e.message}")
                 errorMessage.postValue("Terjadi kesalahan saat pendaftaran")
                 registerStatus.postValue(false)

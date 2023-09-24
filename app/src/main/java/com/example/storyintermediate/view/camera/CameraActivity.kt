@@ -1,7 +1,7 @@
 package com.example.storyintermediate.view.camera
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.storyintermediate.R
 
 class CameraActivity : AppCompatActivity() {

@@ -3,11 +3,14 @@ package com.example.storyintermediate.view.signup
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.example.storyintermediate.R
 import com.example.storyintermediate.databinding.ActivitySignupBinding
 import com.example.storyintermediate.factory.UserModelFactory
 import com.example.storyintermediate.view.login.LoginActivity
@@ -43,15 +46,19 @@ class SignupActivity : AppCompatActivity() {
     private fun observeSignup() {
         viewModel.registerStatus.observe(this) { isSuccess ->
             if (isSuccess) {
-                Toast.makeText(this, "Register Berhasil, Silahkan Login", Toast.LENGTH_SHORT).show()
+                binding.warningText.text = getString(R.string.success_register)
+                binding.warningText.setTextColor(ContextCompat.getColor(this, R.color.green))
             } else {
                 Toast.makeText(this, "Register failed.", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.errorMessage.observe(this) { errorMessage ->
             if (errorMessage != null) {
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                binding.warningText.text = errorMessage
             }
+        }
+        viewModel.isLoading.observe(this) {
+            showLoading(it)
         }
     }
 
@@ -66,5 +73,9 @@ class SignupActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

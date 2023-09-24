@@ -46,6 +46,7 @@ class EmailEditText : AppCompatEditText {
                     validateInput()
                 }
             }
+
             override fun afterTextChanged(s: Editable) {}
         })
     }

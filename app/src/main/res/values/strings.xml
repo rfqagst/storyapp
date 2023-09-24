@@ -28,4 +28,7 @@
     <string name="citizen_story">CITIZEN STORY</string>
     <string name="logout">Keluar</string>
     <string name="bahasa">Bahasa</string>
+    <string name="warning_text">User Not found</string>
+    <string name="success_register">Success Register</string>
+    <string name="success_upload">Success Upload</string>
 </resources>

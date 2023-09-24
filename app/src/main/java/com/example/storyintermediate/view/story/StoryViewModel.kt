@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.data.StoryRepo
-import com.example.storyintermediate.data.pref.UserPreference
 import kotlinx.coroutines.launch
 
 class StoryViewModel(private val repo: StoryRepo) :
@@ -26,7 +25,10 @@ class StoryViewModel(private val repo: StoryRepo) :
                 val firstStory = response.listStory.firstOrNull()
                 _storyData.value = response
                 if (firstStory != null) {
-                    Log.d("StoryViewModel", "Detail cerita pertama dari API: Judul: ${firstStory.name}, Deskripsi: ${firstStory.description}, URL Gambar: ${firstStory.photoUrl}")
+                    Log.d(
+                        "StoryViewModel",
+                        "Detail cerita pertama dari API: Judul: ${firstStory.name}, Deskripsi: ${firstStory.description}, URL Gambar: ${firstStory.photoUrl}"
+                    )
                 } else {
                     Log.d("StoryViewModel", "Tidak ada cerita yang didapatkan dari API")
                 }

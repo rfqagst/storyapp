@@ -1,10 +1,7 @@
 package com.example.storyintermediate.view.story.addstory
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.storyintermediate.data.StoryRepo
-import kotlinx.coroutines.launch
 import java.io.File
 
 

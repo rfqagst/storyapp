@@ -9,9 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.storyintermediate.api.response.ListStoryItem
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 
@@ -21,18 +19,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
 
     private val STORIES_KEY = stringPreferencesKey("stories")
 
-
-    suspend fun getStoredStories(): List<ListStoryItem>? {
-        val storiesJson = dataStore.data.map { preferences ->
-            preferences[STORIES_KEY] ?: ""
-        }.firstOrNull()
-
-        if (storiesJson.isNullOrBlank()) return null
-
-        val storiesType = object : TypeToken<List<ListStoryItem>>() {}.type
-        return Gson().fromJson(storiesJson, storiesType)
-    }
-
     suspend fun saveStories(stories: List<ListStoryItem>) {
         val storiesJson = Gson().toJson(stories)
         dataStore.edit { preferences ->
@@ -40,7 +26,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
             preferences[TOKEN_KEY] = user.token
@@ -64,7 +49,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
 
     fun getToken(): Flow<String> {
         return dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY] ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVVySXh0NlhnbmRGVHhJdE0iLCJpYXQiOjE2OTUzNDQ1NjV9.wJyW4l6fAot2K7zMc6KRn9EYO7DckhIj3lT7Hx2zz6s"
+            preferences[TOKEN_KEY]
+                ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVVySXh0NlhnbmRGVHhJdE0iLCJpYXQiOjE2OTUzNDQ1NjV9.wJyW4l6fAot2K7zMc6KRn9EYO7DckhIj3lT7Hx2zz6s"
         }
     }
 

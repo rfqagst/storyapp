@@ -1,6 +1,5 @@
 package com.example.storyintermediate.data
 
-import com.example.storyintermediate.api.retrofit.ApiConfig
 import com.example.storyintermediate.api.response.LoginResponse
 import com.example.storyintermediate.api.response.RegisterResponse
 import com.example.storyintermediate.api.retrofit.ApiService
@@ -13,9 +12,11 @@ class UserRepo(private val apiService: ApiService, val userPreference: UserPrefe
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
+
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
     }
+
     suspend fun logout() {
         userPreference.logout()
     }
@@ -24,16 +25,13 @@ class UserRepo(private val apiService: ApiService, val userPreference: UserPrefe
         return apiService.login(email, password)
     }
 
-
     suspend fun register(username: String, email: String, password: String): RegisterResponse {
         return apiService.register(username, email, password)
     }
 
-
     companion object {
         @Volatile
         private var instance: UserRepo? = null
-
         fun getInstance(apiService: ApiService, userPreference: UserPreference): UserRepo =
             instance ?: synchronized(this) {
                 instance ?: UserRepo(apiService, userPreference)

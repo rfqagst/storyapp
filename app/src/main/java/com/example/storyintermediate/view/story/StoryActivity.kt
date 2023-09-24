@@ -61,6 +61,7 @@ class StoryActivity : AppCompatActivity() {
                 }
                 return true
             }
+
             R.id.menu_bahasa -> {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 return true
@@ -70,7 +71,6 @@ class StoryActivity : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
 
 
     @Deprecated("Deprecated in Java")

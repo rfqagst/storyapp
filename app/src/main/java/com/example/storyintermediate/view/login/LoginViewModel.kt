@@ -19,23 +19,30 @@ class LoginViewModel(private val repo: UserRepo) : ViewModel() {
     val result: LiveData<LoginResponse> get() = _result
 
     val loginStatus: MutableLiveData<Boolean> = MutableLiveData()
+
     val errorMessage = MutableLiveData<String?>()
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
             try {
+                _isLoading.value = true
                 val response = repo.login(email, password)
+                _isLoading.value = false
                 if (response.error == false) {
                     val token = response.loginResult?.token
                     saveSession(UserModel(token ?: "", email, password, "", true))
                     loginStatus.postValue(true)
-                } else {
+                }
+                else {
                     Log.d("LOGIN_FAILED", "LOGIN FAILED")
                     loginStatus.postValue(false)
                 }
             } catch (e: HttpException) {
-                // Try to parse the error message from the server
+                _isLoading.value = false
                 val jsonInString = e.response()?.errorBody()?.string()
                 try {
                     val errorResponse = Gson().fromJson(jsonInString, ErrorResponse::class.java)
@@ -44,6 +51,7 @@ class LoginViewModel(private val repo: UserRepo) : ViewModel() {
                     errorMessage.postValue("An error occurred.")
                 }
             } catch (e: Exception) {
+                _isLoading.value = false
                 val errorMessageText = "An error occurred."
                 Log.e("LoginViewModel", errorMessageText, e)
                 errorMessage.postValue(errorMessageText)

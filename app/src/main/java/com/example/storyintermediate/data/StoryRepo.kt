@@ -5,7 +5,6 @@ import androidx.lifecycle.liveData
 import com.example.storyintermediate.ResultState
 import com.example.storyintermediate.api.response.AddStoryResponse
 import com.example.storyintermediate.api.response.DetailResponse
-import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.api.retrofit.ApiService
 import com.example.storyintermediate.data.pref.UserPreference
@@ -19,15 +18,11 @@ import java.io.File
 
 
 class StoryRepo(private val apiService: ApiService, private val pref: UserPreference) {
-
-
-
     suspend fun getStories(): StoryResponse {
         val response = apiService.getStories()
         pref.saveStories(response.listStory)
         return response
     }
-
 
     suspend fun getStoryDetail(id: String): DetailResponse {
         return apiService.getDetailStory(id)

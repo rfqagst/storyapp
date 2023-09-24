@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PasswordEditText : AppCompatEditText {
-    private val validationDelay = 1000L  // 1 detik
+    private val validationDelay = 1000L
     private var validationJob: Job? = null
 
     constructor(context: Context) : super(context) {

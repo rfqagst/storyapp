@@ -10,9 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -103,4 +101,5 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap {
     matrix.postRotate(angle)
     return Bitmap.createBitmap(
         source, 0, 0, source.width, source.height, matrix, true
-    )}
+    )
+}

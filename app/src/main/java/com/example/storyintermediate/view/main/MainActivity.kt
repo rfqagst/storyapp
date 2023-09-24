@@ -7,16 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.storyintermediate.R
-import com.example.storyintermediate.data.pref.UserPreference
-import com.example.storyintermediate.data.pref.dataStore
 import com.example.storyintermediate.databinding.ActivityMainBinding
 import com.example.storyintermediate.factory.UserModelFactory
 import com.example.storyintermediate.view.login.LoginActivity
 import com.example.storyintermediate.view.signup.SignupActivity
 import com.example.storyintermediate.view.story.StoryActivity
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel

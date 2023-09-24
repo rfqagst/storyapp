@@ -13,7 +13,7 @@ class DetailViewModel(private val repo: StoryRepo) : ViewModel() {
     private val _detailStory = MutableLiveData<DetailResponse>()
     val detailStory: LiveData<DetailResponse> = _detailStory
 
-    fun getStoryDetail (id : String) {
+    fun getStoryDetail(id: String) {
         viewModelScope.launch {
             try {
                 val response = repo.getStoryDetail(id)

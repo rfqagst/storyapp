@@ -3,6 +3,7 @@ package com.example.storyintermediate.view.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -47,8 +48,12 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.errorMessage.observe(this) { errorMessage ->
             if (errorMessage != null) {
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                binding.warningText.text = errorMessage
             }
+        }
+
+        viewModel.isLoading.observe(this) {
+            showLoading(it)
         }
     }
 
@@ -63,5 +68,9 @@ class LoginActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -5,12 +5,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.storyintermediate.R
 import com.example.storyintermediate.ResultState
 import com.example.storyintermediate.databinding.ActivityAddStoryBinding
@@ -39,9 +41,6 @@ class AddStoryActivity : AppCompatActivity() {
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.submitStoryButton.setOnClickListener {
             uploadImage()
-            val intent = Intent(this, StoryActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
         }
     }
 
@@ -89,19 +88,22 @@ class AddStoryActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is ResultState.Loading -> {
-                            Log.d("Image Loading", " Lagi Loading")
+                                showLoading(true)
                         }
 
                         is ResultState.Success -> {
                             Log.d("Image Success", "showImage: ${result.data.message.toString()}")
-                            showToast(result.data.message.toString())
-//                            showLoading(false)
+                            showLoading(false)
+                            val intent = Intent(this, StoryActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
                         }
 
                         is ResultState.Error -> {
-                            showToast(result.error)
                             Log.d("Image Error", "showImage: ${result.error}")
-//                            showLoading(false)
+                            binding.warningText.text = result.error
+                            binding.warningText.setTextColor(ContextCompat.getColor(this, R.color.red))
+                            showLoading(false)
                         }
                     }
                 }
@@ -109,9 +111,9 @@ class AddStoryActivity : AppCompatActivity() {
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 
-//    private fun showLoading(isLoading: Boolean) {
-//        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
-//    }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

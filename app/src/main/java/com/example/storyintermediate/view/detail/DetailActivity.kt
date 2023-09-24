@@ -1,14 +1,13 @@
 package com.example.storyintermediate.view.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
-import com.bumptech.glide.Glide
-import com.example.storyintermediate.factory.StoryModelFactory
-import com.example.storyintermediate.databinding.ActivityDetailBinding
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.example.storyintermediate.databinding.ActivityDetailBinding
+import com.example.storyintermediate.factory.StoryModelFactory
 
 class DetailActivity : AppCompatActivity() {
 
@@ -18,14 +17,13 @@ class DetailActivity : AppCompatActivity() {
         StoryModelFactory.getInstance(this)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val id = intent?.getStringExtra(EXTRA_ID) ?: ""
         detailViewModel.getStoryDetail(id)
-        Log.d("DetailActivity","Using id $id")
+        Log.d("DetailActivity", "Using id $id")
 
         detailViewModel.detailStory.observe(this, Observer
         { _ ->
