@@ -3,11 +3,11 @@ package com.example.storyintermediate.view.story
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyintermediate.R
@@ -16,6 +16,7 @@ import com.example.storyintermediate.data.pref.dataStore
 import com.example.storyintermediate.databinding.ActivityStoryBinding
 import com.example.storyintermediate.factory.StoryModelFactory
 import com.example.storyintermediate.view.main.MainActivity
+import com.example.storyintermediate.view.maps.MapsActivity
 import com.example.storyintermediate.view.story.addstory.AddStoryActivity
 import kotlinx.coroutines.launch
 
@@ -31,17 +32,25 @@ class StoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupRecyclerView()
-
-        storyViewModel.storyData.observe(this, Observer { storyResponse ->
-            adapter.submitList(storyResponse.listStory)
-        })
-
         binding.addFab.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
-        storyViewModel.getStories()
+        setupRecyclerView()
+    }
+
+
+    private fun setupRecyclerView() {
+        Log.d("setupRecyclerView", "Dijalankan")
+
+        adapter = StoryListAdapter()
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+        binding.rvStory.adapter = adapter
+
+        storyViewModel.storyPagingData.observe(this) {
+            adapter.submitData(lifecycle, it)
+            Log.d("setupRecyclerView", "$it")
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,6 +76,10 @@ class StoryActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.menu_map -> {
+                startActivity(Intent(this, MapsActivity::class.java))
+                return true
+            }
 
             else -> return super.onOptionsItemSelected(item)
         }
@@ -79,9 +92,4 @@ class StoryActivity : AppCompatActivity() {
     }
 
 
-    private fun setupRecyclerView() {
-        adapter = StoryListAdapter()
-        binding.rvStory.layoutManager = LinearLayoutManager(this)
-        binding.rvStory.adapter = adapter
-    }
 }

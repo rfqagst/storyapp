@@ -10,4 +10,9 @@
         android:id="@+id/menu_bahasa"
         android:title="@string/bahasa"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/baseline_map_24"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -17,6 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryIntermediate"
         tools:targetApi="31">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAvZk7ScQnNzRs0e1U-qitfkP6vA9UtfBE" />
+
+        <activity
+            android:name=".view.maps.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+
         <receiver
             android:name=".widget.StoryWidget"
             android:exported="false">
@@ -48,9 +69,6 @@
             android:name=".view.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.WelcomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.main.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -63,8 +81,6 @@
         <service
             android:name=".widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"

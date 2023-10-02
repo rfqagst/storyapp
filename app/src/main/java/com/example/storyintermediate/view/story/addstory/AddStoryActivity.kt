@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -41,6 +43,13 @@ class AddStoryActivity : AppCompatActivity() {
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.submitStoryButton.setOnClickListener {
             uploadImage()
+        }
+
+        with(supportActionBar) {
+            this?.setDisplayShowCustomEnabled(true)
+            this?.setDisplayShowTitleEnabled(false)
+            this?.setDisplayShowHomeEnabled(false)
+            this?.setDisplayHomeAsUpEnabled(true)
         }
     }
 
@@ -117,5 +126,21 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intentFavorite = Intent(this, StoryActivity::class.java)
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 }

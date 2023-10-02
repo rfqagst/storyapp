@@ -11,6 +11,7 @@ import com.example.storyintermediate.R
 import com.example.storyintermediate.databinding.ActivityMainBinding
 import com.example.storyintermediate.factory.UserModelFactory
 import com.example.storyintermediate.view.login.LoginActivity
+import com.example.storyintermediate.view.maps.MapsActivity
 import com.example.storyintermediate.view.signup.SignupActivity
 import com.example.storyintermediate.view.story.StoryActivity
 
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.signupButton.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

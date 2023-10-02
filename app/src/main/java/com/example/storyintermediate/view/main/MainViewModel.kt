@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.storyintermediate.data.UserRepo
+import com.example.storyintermediate.data.repo.UserRepo
 import com.example.storyintermediate.data.pref.UserModel
 import kotlinx.coroutines.launch
 

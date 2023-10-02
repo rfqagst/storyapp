@@ -31,8 +31,7 @@
     <string name="logout">Logout</string>
     <string name="bahasa">Language</string>
     <string name="success_register">Registration Success, Please Login</string>
-
-
+    <string name="map">Map</string>
 
 
 </resources>

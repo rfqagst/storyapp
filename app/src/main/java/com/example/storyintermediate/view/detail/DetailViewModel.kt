@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.storyintermediate.api.response.DetailResponse
-import com.example.storyintermediate.data.StoryRepo
+import com.example.storyintermediate.data.repo.StoryRepo
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val repo: StoryRepo) : ViewModel() {

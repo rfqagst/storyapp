@@ -9,7 +9,7 @@ import android.widget.RemoteViewsService
 import com.bumptech.glide.Glide
 import com.example.storyintermediate.R
 import com.example.storyintermediate.api.response.ListStoryItem
-import com.example.storyintermediate.data.StoryRepo
+import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.view.detail.DetailActivity.Companion.EXTRA_ID
 import com.example.storyintermediate.widget.StoryWidget.Companion.EXTRA_ITEM
 import kotlinx.coroutines.runBlocking

@@ -1,7 +1,7 @@
 package com.example.storyintermediate.view.story.addstory
 
 import androidx.lifecycle.ViewModel
-import com.example.storyintermediate.data.StoryRepo
+import com.example.storyintermediate.data.repo.StoryRepo
 import java.io.File
 
 

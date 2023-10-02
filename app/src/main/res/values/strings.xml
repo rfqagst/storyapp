@@ -31,4 +31,11 @@
     <string name="warning_text">User Not found</string>
     <string name="success_register">Success Register</string>
     <string name="success_upload">Success Upload</string>
+    <string name="map">Map</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="map_id">495fc0e392f924af</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.storyintermediate.data
+package com.example.storyintermediate.data.repo
 
 import com.example.storyintermediate.api.response.LoginResponse
 import com.example.storyintermediate.api.response.RegisterResponse

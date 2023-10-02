@@ -3,7 +3,7 @@ package com.example.storyintermediate.factory
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.storyintermediate.data.UserRepo
+import com.example.storyintermediate.data.repo.UserRepo
 import com.example.storyintermediate.di.Injection
 import com.example.storyintermediate.view.login.LoginViewModel
 import com.example.storyintermediate.view.main.MainViewModel

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.storyintermediate.api.response.ErrorResponse
 import com.example.storyintermediate.api.response.RegisterResponse
-import com.example.storyintermediate.data.UserRepo
+import com.example.storyintermediate.data.repo.UserRepo
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException

@@ -2,6 +2,7 @@ package com.example.storyintermediate.api.retrofit
 
 import com.example.storyintermediate.api.response.AddStoryResponse
 import com.example.storyintermediate.api.response.DetailResponse
+import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.api.response.LoginResponse
 import com.example.storyintermediate.api.response.RegisterResponse
 import com.example.storyintermediate.api.response.StoryResponse
@@ -38,4 +39,14 @@ interface ApiService {
         @Part("description") description: RequestBody,
     ): AddStoryResponse
 
+    @GET("stories")
+    suspend fun getStoriesWithLocation(
+        @Query("location") location : Int = 1,
+    ): StoryResponse
+
+    @GET("stories")
+    suspend fun getStoriesPaging(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): StoryResponse
 }

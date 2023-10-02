@@ -6,15 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.databinding.StoryListBinding
 import com.example.storyintermediate.view.detail.DetailActivity
 
-class StoryListAdapter : ListAdapter<ListStoryItem, StoryListAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class StoryListAdapter :
+    PagingDataAdapter<ListStoryItem, StoryListAdapter.MyViewHolder>(DIFF_CALLBACK) {
     class MyViewHolder(var binding: StoryListBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -34,9 +35,11 @@ class StoryListAdapter : ListAdapter<ListStoryItem, StoryListAdapter.MyViewHolde
                 .load(story.photoUrl)
                 .fitCenter()
                 .into(holder.binding.imgBanner)
+            Log.d("StoryListAdapter", "id nya adalah ${story.id}")
         } else {
             holder.binding.tvName.text = "Nama tidak tersedia"
             holder.binding.tvDescription.text = "Deskripsi tidak tersedia"
+            Log.d("StoryListAdapter", "id nya adalah ${story?.id}")
         }
 
         with(holder) {
@@ -53,7 +56,7 @@ class StoryListAdapter : ListAdapter<ListStoryItem, StoryListAdapter.MyViewHolde
                     )
 
 
-                Log.d("StoryListAdapter", "id nya adalah ${story.id}")
+                Log.d("StoryListAdapter", "id nya adalah ${story?.id}")
                 itemView.context.startActivity(intentDetail, optionsCompat.toBundle())
 
             }

@@ -2,8 +2,8 @@ package com.example.storyintermediate.di
 
 import android.content.Context
 import com.example.storyintermediate.api.retrofit.ApiConfig
-import com.example.storyintermediate.data.StoryRepo
-import com.example.storyintermediate.data.UserRepo
+import com.example.storyintermediate.data.repo.StoryRepo
+import com.example.storyintermediate.data.repo.UserRepo
 import com.example.storyintermediate.data.pref.UserPreference
 import com.example.storyintermediate.data.pref.dataStore
 import kotlinx.coroutines.flow.first

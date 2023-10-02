@@ -3,9 +3,10 @@ package com.example.storyintermediate.factory
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.storyintermediate.data.StoryRepo
+import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.di.Injection
 import com.example.storyintermediate.view.detail.DetailViewModel
+import com.example.storyintermediate.view.maps.MapsViewModel
 import com.example.storyintermediate.view.story.StoryViewModel
 import com.example.storyintermediate.view.story.addstory.AddStoryViewModel
 
@@ -22,6 +23,10 @@ class StoryModelFactory(private val repo: StoryRepo) : ViewModelProvider.NewInst
 
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel(repo) as T
+            }
+
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repo) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
