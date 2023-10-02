@@ -3,6 +3,7 @@ package com.example.storyintermediate.data.repo
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -14,7 +15,9 @@ import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.api.retrofit.ApiService
 import com.example.storyintermediate.data.paging.StoryPagingSource
+import com.example.storyintermediate.data.paging.StoryRemoteMediator
 import com.example.storyintermediate.data.pref.UserPreference
+import com.example.storyintermediate.database.StoryDatabase
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -24,7 +27,38 @@ import retrofit2.HttpException
 import java.io.File
 
 
-class StoryRepo(private val apiService: ApiService, private val pref: UserPreference) {
+class StoryRepo(
+    private val apiService: ApiService,
+    private val storyDatabase: StoryDatabase,
+    private val pref: UserPreference
+) {
+
+    fun getStoriesMediator(): LiveData<PagingData<ListStoryItem>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService)
+                storyDatabase.storyDao().getAllStory()
+            }
+        ).liveData
+    }
+
+
+//    fun getStoriesPaging(): LiveData<PagingData<ListStoryItem>> {
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = 5
+//            ),
+//            pagingSourceFactory = {
+//                StoryPagingSource(apiService)
+//            }
+//        ).liveData
+//    }
+
     suspend fun getStories(): StoryResponse {
         val response = apiService.getStories()
         pref.saveStories(response.listStory)
@@ -62,23 +96,16 @@ class StoryRepo(private val apiService: ApiService, private val pref: UserPrefer
         }
     }
 
-    fun getStoriesPaging(): LiveData<PagingData<ListStoryItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            pagingSourceFactory = {
-                StoryPagingSource(apiService)
-            }
-        ).liveData
-    }
+
 
     companion object {
         @Volatile
         private var instance: StoryRepo? = null
-        fun getInstance(apiService: ApiService, pref: UserPreference): StoryRepo =
+        fun getInstance(
+            apiService: ApiService, storyDatabase: StoryDatabase,
+            pref: UserPreference): StoryRepo =
             instance ?: synchronized(this) {
-                instance ?: StoryRepo(apiService, pref)
+                instance ?: StoryRepo(apiService,storyDatabase, pref)
             }.also { instance = it }
     }
 }

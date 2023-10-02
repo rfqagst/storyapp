@@ -40,15 +40,12 @@ class StoryActivity : AppCompatActivity() {
 
 
     private fun setupRecyclerView() {
-        Log.d("setupRecyclerView", "Dijalankan")
-
         adapter = StoryListAdapter()
         binding.rvStory.layoutManager = LinearLayoutManager(this)
         binding.rvStory.adapter = adapter
 
         storyViewModel.storyPagingData.observe(this) {
             adapter.submitData(lifecycle, it)
-            Log.d("setupRecyclerView", "$it")
         }
 
     }
@@ -62,7 +59,6 @@ class StoryActivity : AppCompatActivity() {
         val userPreference = UserPreference.getInstance(dataStore)
         when (item.itemId) {
             R.id.menu_logout -> {
-                val pref = UserPreference.getInstance(dataStore)
                 lifecycleScope.launch {
                     userPreference.logout()
                     startActivity(Intent(this@StoryActivity, MainActivity::class.java))
@@ -90,6 +86,5 @@ class StoryActivity : AppCompatActivity() {
     override fun onBackPressed() {
         finishAffinity()
     }
-
 
 }

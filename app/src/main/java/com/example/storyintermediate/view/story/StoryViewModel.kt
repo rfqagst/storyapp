@@ -1,7 +1,5 @@
 package com.example.storyintermediate.view.story
 
-import android.util.Log
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,22 +7,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.storyintermediate.api.response.ListStoryItem
-import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.data.repo.StoryRepo
-import kotlinx.coroutines.launch
 
 class StoryViewModel(private val repo: StoryRepo) :
     ViewModel() {
-    private val _storyData = MutableLiveData<StoryResponse>()
-    val storyData: LiveData<StoryResponse> get() = _storyData
 
     private val _storyPagingData = MutableLiveData<PagingData<ListStoryItem>>()
     val storyPagingData: LiveData<PagingData<ListStoryItem>> =
-        repo.getStoriesPaging().cachedIn(viewModelScope)
-
-
-    private val STORIES_KEY = stringPreferencesKey("stories")
-
+        repo.getStoriesMediator().cachedIn(viewModelScope)
+}
+//
+//    private val _storyData = MutableLiveData<StoryResponse>()
+//    val storyData: LiveData<StoryResponse> get() = _storyData
 
 //    fun getStories() {
 //        viewModelScope.launch {
@@ -45,4 +39,3 @@ class StoryViewModel(private val repo: StoryRepo) :
 //            }
 //        }
 //    }
-}

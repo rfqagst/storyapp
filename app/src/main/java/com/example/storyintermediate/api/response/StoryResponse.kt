@@ -1,7 +1,8 @@
 package com.example.storyintermediate.api.response
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
 
 data class StoryResponse(
 
@@ -9,30 +10,30 @@ data class StoryResponse(
     val listStory: List<ListStoryItem>,
 
     @field:SerializedName("error")
-    val error: Boolean? = null,
+    val error: Boolean,
 
     @field:SerializedName("message")
-    val message: String? = null
+    val message: String
 )
 
-
+@Entity(tableName = "list_story_item")
 data class ListStoryItem(
+    @PrimaryKey
+    @field:SerializedName("id")
+    val id: String,
 
     @field:SerializedName("photoUrl")
-    val photoUrl: String? = null,
+    val photoUrl: String ,
 
     @field:SerializedName("name")
-    val name: String? = null,
+    val name : String,
 
     @field:SerializedName("description")
-    val description: String? = null,
-
-    @field:SerializedName("id")
-    val id: String? = null,
+    val description: String,
 
     @field:SerializedName("lon")
-    val lon: Double? = null,
+    val lon: Double,
 
     @field:SerializedName("lat")
-    val lat: Double? = null,
+    val lat: Double,
 )
