@@ -39,6 +39,16 @@ interface ApiService {
         @Part("description") description: RequestBody,
     ): AddStoryResponse
 
+
+    @Multipart
+    @POST("stories")
+    suspend fun postStoryWithLocation(
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody
+    ): AddStoryResponse
+
     @GET("stories")
     suspend fun getStoriesWithLocation(
         @Query("location") location : Int = 1,

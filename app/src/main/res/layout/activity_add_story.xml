@@ -72,11 +72,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:layout_marginTop="16dp"
             android:text="@string/submit_story"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/warningText" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxLocation" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -95,12 +94,22 @@
             android:id="@+id/warningText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionTextInput"
             tools:text="@string/warning_text" />
+
+        <CheckBox
+            android:id="@+id/checkBoxLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTextInput" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,7 @@
 package com.example.storyintermediate.view.story.addstory
 
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.storyintermediate.R
 import com.example.storyintermediate.ResultState
+import com.example.storyintermediate.api.response.AddStoryResponse
 import com.example.storyintermediate.databinding.ActivityAddStoryBinding
 import com.example.storyintermediate.factory.StoryModelFactory
 import com.example.storyintermediate.utils.getImageUri
@@ -28,6 +30,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddStoryBinding
     private var currentImageUri: Uri? = null
+    private var currentLocation: Location? = null
 
     private val addStoryViewModel by viewModels<AddStoryViewModel> {
         StoryModelFactory.getInstance(this)
@@ -43,6 +46,7 @@ class AddStoryActivity : AppCompatActivity() {
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.submitStoryButton.setOnClickListener {
             uploadImage()
+            Log.d("AddStory", "Submit di klik")
         }
 
         with(supportActionBar) {
@@ -51,6 +55,7 @@ class AddStoryActivity : AppCompatActivity() {
             this?.setDisplayShowHomeEnabled(false)
             this?.setDisplayHomeAsUpEnabled(true)
         }
+
     }
 
     private fun startGallery() {
@@ -91,30 +96,13 @@ class AddStoryActivity : AppCompatActivity() {
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             val description = binding.descriptionEditText.text.toString()
-            addStoryViewModel.postStory(imageFile, description).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is ResultState.Loading -> {
-                                showLoading(true)
-                        }
-
-                        is ResultState.Success -> {
-                            Log.d("Image Success", "showImage: ${result.data.message.toString()}")
-                            showLoading(false)
-                            val intent = Intent(this, StoryActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                        }
-
-                        is ResultState.Error -> {
-                            Log.d("Image Error", "showImage: ${result.error}")
-                            binding.warningText.text = result.error
-                            binding.warningText.setTextColor(ContextCompat.getColor(this, R.color.red))
-                            showLoading(false)
-                        }
-                    }
+            if (binding.checkBoxLocation.isChecked) {
+                addStoryViewModel.postStoryWithLocation(imageFile, description, currentLocation!!)
+                    .observe(this) { result -> handleResultState(result) }
+            } else {
+                addStoryViewModel.postStory(imageFile, description).observe(this) { result ->
+                    handleResultState(result)
                 }
             }
         } ?: showToast(getString(R.string.empty_image_warning))
@@ -139,8 +127,44 @@ class AddStoryActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun handleResultState(result: ResultState<AddStoryResponse>) {
+        when (result) {
+            is ResultState.Loading -> {
+                showLoading(true)
+            }
+
+            is ResultState.Success -> {
+                val response = result.data
+                Log.d("Image Success", "showImage: ${response.message}")
+                showLoading(false)
+                val intent = Intent(this, StoryActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
+
+            is ResultState.Error -> {
+                val errorMessage = result.error
+                Log.d("Image Error", "showImage: $errorMessage")
+                binding.warningText.text = errorMessage
+                binding.warningText.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.red
+                    )
+                )
+                showLoading(false)
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
+    }
+
+    companion object {
+        const val EXTRA_LATITUDE = "extra_latitute"
+        const val EXTRA_LONGITUDE = "extra_longitude"
     }
 }

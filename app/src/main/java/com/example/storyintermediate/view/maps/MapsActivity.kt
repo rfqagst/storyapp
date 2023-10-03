@@ -1,5 +1,6 @@
 package com.example.storyintermediate.view.maps
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
@@ -14,8 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.storyintermediate.R
+import com.example.storyintermediate.api.response.ListStoryItem
+import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.databinding.ActivityMapsBinding
+import com.example.storyintermediate.di.Injection
 import com.example.storyintermediate.factory.StoryModelFactory
+import com.example.storyintermediate.view.story.addstory.AddStoryActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -83,10 +88,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ) { permissions ->
             when {
                 permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    // Precise location access granted.
                     getMyLastLocation()
                 }
-
                 permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
                     // Only approximate location access granted.
                     getMyLastLocation()
@@ -105,30 +108,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun getMyLastLocation() {
-        if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-        ) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    showStartMarker(location)
-                } else {
-                    Toast.makeText(
-                        this@MapsActivity,
-                        "Location is not found. Try Again",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        private fun getMyLastLocation() {
+            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+                checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+            ) {
+                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        Log.d("getMyLastLocation","location != null $location")
+                        showStartMarker(location)
+                        intent.putExtra("EXTRA_LATITUDE", location.latitude)
+                        intent.putExtra("EXTRA_LONGITUDE", location.longitude)
+                    } else {
+                        Toast.makeText(
+                            this@MapsActivity,
+                            "Location is not found. Try Again",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
-        } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+            } else {
+                requestPermissionLauncher.launch(
+                    arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
                 )
-            )
+            }
         }
-    }
 
     private fun showStartMarker(location: Location) {
         val startLocation = LatLng(location.latitude, location.longitude)
@@ -141,7 +147,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun getStoryLocation() {
-
         mapsViewModel.storyData.observe(this, Observer { storyResponse ->
             storyResponse.listStory.forEach { data ->
                 val latLng = LatLng(data.lat ?: 0.0, data.lon ?: 0.0)
@@ -222,5 +227,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         val TAG = "MapsActivity"
+        const val EXTRA_LATITUDE = "extra_latitute"
+        const val EXTRA_LONGITUDE = "extra_longitude"
     }
 }

@@ -1,5 +1,6 @@
 package com.example.storyintermediate.data.repo
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -32,7 +33,6 @@ class StoryRepo(
     private val storyDatabase: StoryDatabase,
     private val pref: UserPreference
 ) {
-
     fun getStoriesMediator(): LiveData<PagingData<ListStoryItem>> {
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
@@ -57,7 +57,6 @@ class StoryRepo(
         val response = apiService.getStoriesWithLocation()
         return response
     }
-
     suspend fun getStoryDetail(id: String): DetailResponse {
         return apiService.getDetailStory(id)
     }
@@ -66,13 +65,16 @@ class StoryRepo(
         emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+
+
         val multipartBody = MultipartBody.Part.createFormData(
             "photo",
             imageFile.name,
             requestImageFile
         )
         try {
-            val successResponse = apiService.postStory(multipartBody, requestBody)
+            val successResponse =
+                apiService.postStory(multipartBody, requestBody)
             emit(ResultState.Success(successResponse))
             Log.d("StoryRepo", "Berhasil Upload")
         } catch (e: HttpException) {
@@ -85,15 +87,41 @@ class StoryRepo(
     }
 
 
+    fun postStoryWithLocation(imageFile: File, description: String, location: Location) = liveData {
+        emit(ResultState.Loading)
+        val requestBody = description.toRequestBody("text/plain".toMediaType())
+        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+        val latitude = location.latitude.toString().toRequestBody("text/plain".toMediaType())
+        val longitude = location.longitude.toString().toRequestBody("text/plain".toMediaType())
+
+        val multipartBody = MultipartBody.Part.createFormData(
+            "photo",
+            imageFile.name,
+            requestImageFile
+        )
+        try {
+            val successResponse =
+                apiService.postStoryWithLocation(multipartBody, requestBody,latitude, longitude)
+            emit(ResultState.Success(successResponse))
+            Log.d("StoryRepo", "Berhasil Upload")
+        } catch (e: HttpException) {
+
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, AddStoryResponse::class.java)
+            emit(ResultState.Error(errorResponse.message.toString()))
+            Log.d("StoryRepo", "Gagal Upload")
+        }
+    }
 
     companion object {
         @Volatile
         private var instance: StoryRepo? = null
         fun getInstance(
             apiService: ApiService, storyDatabase: StoryDatabase,
-            pref: UserPreference): StoryRepo =
+            pref: UserPreference
+        ): StoryRepo =
             instance ?: synchronized(this) {
-                instance ?: StoryRepo(apiService,storyDatabase, pref)
+                instance ?: StoryRepo(apiService, storyDatabase, pref)
             }.also { instance = it }
     }
 }
