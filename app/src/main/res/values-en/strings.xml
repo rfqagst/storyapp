@@ -32,6 +32,7 @@
     <string name="bahasa">Language</string>
     <string name="success_register">Registration Success, Please Login</string>
     <string name="map">Map</string>
+    <string name="start_point">Start Point</string>
 
 
 </resources>

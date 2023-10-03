@@ -47,18 +47,6 @@ class StoryRepo(
         ).liveData
     }
 
-
-//    fun getStoriesPaging(): LiveData<PagingData<ListStoryItem>> {
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = 5
-//            ),
-//            pagingSourceFactory = {
-//                StoryPagingSource(apiService)
-//            }
-//        ).liveData
-//    }
-
     suspend fun getStories(): StoryResponse {
         val response = apiService.getStories()
         pref.saveStories(response.listStory)

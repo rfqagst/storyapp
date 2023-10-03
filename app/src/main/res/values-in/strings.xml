@@ -33,6 +33,7 @@
     <string name="success_register">Registrasi Berhasil, Silahkan Login</string>
     <string name="success_upload">Upload Berhasil</string>
     <string name="map">Map</string>
+    <string name="start_point">Start Point</string>
 
 
 </resources>
