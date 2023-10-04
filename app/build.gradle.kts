@@ -16,13 +16,18 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField ("String", "BASE_URL", "\"https://story-api.dicoding.dev/v1/\"")
+        buildConfigField ("String", "TEST_EMAIL", "\"diandian123@gmail.com\"")
+        buildConfigField ("String", "TEST_PASS", "\"diandian\"")
+
     }
 
     buildFeatures {
         viewBinding = true
     }
+
+
 
     buildTypes {
         release {
@@ -33,6 +38,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -71,7 +77,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:4.4.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(" androidx.test.espresso:espresso-idling-resource:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-idling-resource:3.5.1")
     androidTestImplementation("androidx.test:runner:1.5.2")
 
 }
