@@ -13,11 +13,13 @@ import com.example.storyintermediate.api.response.ListStoryItem
 )
 abstract class StoryDatabase : RoomDatabase() {
 
-    abstract fun storyDao() : StoryDao
-    abstract fun remoteKeysDao() : RemoteKeysDao
+    abstract fun storyDao(): StoryDao
+    abstract fun remoteKeysDao(): RemoteKeysDao
+
     companion object {
         @Volatile
         private var INSTANCE: StoryDatabase? = null
+
         @JvmStatic
         fun getDatabase(context: Context): StoryDatabase {
             return INSTANCE ?: synchronized(this) {

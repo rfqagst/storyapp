@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import com.example.storyintermediate.DataDummy
 import com.example.storyintermediate.MainDispatcherRule
 import com.example.storyintermediate.api.response.ListStoryItem
-import com.example.storyintermediate.data.paging.StoryPagingSource
 import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +46,8 @@ class StoryViewModelTest {
 
         Mockito.`when`(storyRepo.getStoriesMediator()).thenReturn(expectedStory)
         val storyViewModel = StoryViewModel(storyRepo)
-        val actualStory: PagingData<ListStoryItem> = storyViewModel.storyPagingData.getOrAwaitValue()
+        val actualStory: PagingData<ListStoryItem> =
+            storyViewModel.storyPagingData.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
@@ -68,7 +68,8 @@ class StoryViewModelTest {
         expectedStory.value = data
         Mockito.`when`(storyRepo.getStoriesMediator()).thenReturn(expectedStory)
         val storyViewModel = StoryViewModel(storyRepo)
-        val actualStory: PagingData<ListStoryItem> = storyViewModel.storyPagingData.getOrAwaitValue()
+        val actualStory: PagingData<ListStoryItem> =
+            storyViewModel.storyPagingData.getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,

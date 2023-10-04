@@ -32,7 +32,7 @@ interface ApiService {
 
     @Multipart
     @POST("stories")
-     suspend fun postStory(
+    suspend fun postStory(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
     ): StoryResponse
@@ -41,15 +41,15 @@ interface ApiService {
     @Multipart
     @POST("stories")
     suspend fun postStoryWithLocation(
-    @Part file: MultipartBody.Part,
-    @Part("description") description: RequestBody,
-    @Part("lat") lat: Double,
-    @Part("lon") lon: Double,
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody,
+        @Part("lat") lat: Double,
+        @Part("lon") lon: Double,
     ): StoryResponse
 
     @GET("stories")
     suspend fun getStoriesWithLocation(
-        @Query("location") location : Int = 1,
+        @Query("location") location: Int = 1,
     ): StoryResponse
 
     @GET("stories")

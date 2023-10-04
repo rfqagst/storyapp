@@ -12,10 +12,4 @@ class MainViewModel(private val repo: UserRepo) : ViewModel() {
     fun getSession(): LiveData<UserModel> {
         return repo.getSession().asLiveData()
     }
-
-    fun logout() {
-        viewModelScope.launch {
-            repo.logout()
-        }
-    }
 }

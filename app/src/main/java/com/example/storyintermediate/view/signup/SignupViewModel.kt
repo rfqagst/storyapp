@@ -15,8 +15,6 @@ import retrofit2.HttpException
 class SignupViewModel(private val repo: UserRepo) : ViewModel() {
 
     private val _registrationResponse = MutableLiveData<RegisterResponse>()
-    val registrationResponse: LiveData<RegisterResponse> get() = _registrationResponse
-
     val errorMessage = MutableLiveData<String?>()
     val registerStatus: MutableLiveData<Boolean> = MutableLiveData()
 

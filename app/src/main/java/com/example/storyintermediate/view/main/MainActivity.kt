@@ -11,13 +11,10 @@ import com.example.storyintermediate.R
 import com.example.storyintermediate.databinding.ActivityMainBinding
 import com.example.storyintermediate.factory.UserModelFactory
 import com.example.storyintermediate.view.login.LoginActivity
-import com.example.storyintermediate.view.maps.MapsActivity
 import com.example.storyintermediate.view.signup.SignupActivity
 import com.example.storyintermediate.view.story.StoryActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mainViewModel: MainViewModel
-
     private val userViewModel by viewModels<MainViewModel> {
         UserModelFactory.getInstance(this)
     }

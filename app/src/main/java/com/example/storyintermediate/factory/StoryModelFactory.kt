@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.di.Injection
 import com.example.storyintermediate.view.detail.DetailViewModel
-import com.example.storyintermediate.view.maps.MapsViewModel
 import com.example.storyintermediate.view.story.StoryViewModel
 import com.example.storyintermediate.view.story.addstory.AddStoryViewModel
 

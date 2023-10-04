@@ -14,7 +14,7 @@ import com.example.storyintermediate.factory.UserModelFactory
 import com.example.storyintermediate.view.story.StoryActivity
 
 class LoginActivity : AppCompatActivity() {
-     val viewModel by viewModels<LoginViewModel> {
+    val viewModel by viewModels<LoginViewModel> {
         UserModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityLoginBinding

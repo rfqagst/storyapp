@@ -46,14 +46,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-
-    fun getToken(): Flow<String> {
-        return dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY]
-                ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVVySXh0NlhnbmRGVHhJdE0iLCJpYXQiOjE2OTUzNDQ1NjV9.wJyW4l6fAot2K7zMc6KRn9EYO7DckhIj3lT7Hx2zz6s"
-        }
-    }
-
     suspend fun logout() {
         dataStore.edit { preferences ->
             preferences.clear()

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 class EmailEditText : AppCompatEditText {
-    private val validationDelay = 1000L  // 1 detik
+    private val validationDelay = 1000L
     private var validationJob: Job? = null
     private val emailPattern = Pattern.compile(
         "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"

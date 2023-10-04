@@ -81,32 +81,31 @@ class StoryRepo(
     }
 
 
-    fun postStoryWithLocation(imageFile: File, description: String, lat: Double, lon : Double) = liveData {
-        emit(ResultState.Loading)
-        val requestBody = description.toRequestBody("text/plain".toMediaType())
-        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val latt = lat
-        val lonn = lon
+    fun postStoryWithLocation(imageFile: File, description: String, lat: Double, lon: Double) =
+        liveData {
+            emit(ResultState.Loading)
+            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
 
-        val multipartBody = MultipartBody.Part.createFormData(
-            "photo",
-            imageFile.name,
-            requestImageFile
-        )
-        try {
-            Log.d("StoryRepo", "Lokasi $lat dan $lon")
-            val successResponse =
-                apiService.postStoryWithLocation(multipartBody, requestBody,latt, lonn)
-            emit(ResultState.Success(successResponse))
-            Log.d("StoryRepo", "Berhasil Upload")
-        } catch (e: HttpException) {
-            Log.d("StoryRepo", "Lokasi $lat dan $lon")
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
-            emit(ResultState.Error(errorResponse.message))
-            Log.d("StoryRepo", errorResponse.message)
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo",
+                imageFile.name,
+                requestImageFile
+            )
+            try {
+                Log.d("StoryRepo", "Lokasi $lat dan $lon")
+                val successResponse =
+                    apiService.postStoryWithLocation(multipartBody, requestBody, lat, lon)
+                emit(ResultState.Success(successResponse))
+                Log.d("StoryRepo", "Berhasil Upload")
+            } catch (e: HttpException) {
+                Log.d("StoryRepo", "Lokasi $lat dan $lon")
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+                emit(ResultState.Error(errorResponse.message))
+                Log.d("StoryRepo", errorResponse.message)
+            }
         }
-    }
 
     companion object {
         @Volatile

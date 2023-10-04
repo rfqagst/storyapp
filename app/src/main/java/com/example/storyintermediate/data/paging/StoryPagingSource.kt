@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.storyintermediate.api.response.ListStoryItem
-import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.api.retrofit.ApiService
 
 class StoryPagingSource(private val apiService: ApiService) : PagingSource<Int, ListStoryItem>() {
@@ -21,7 +20,10 @@ class StoryPagingSource(private val apiService: ApiService) : PagingSource<Int, 
             val position = params.key ?: INITIAL_PAGE_INDEX
             val response = apiService.getStoriesPaging(position, params.loadSize)
             val responseData = response.listStory
-            Log.d("StoryPagingSource", "Loading page: $position, received ${responseData.size} items")
+            Log.d(
+                "StoryPagingSource",
+                "Loading page: $position, received ${responseData.size} items"
+            )
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,

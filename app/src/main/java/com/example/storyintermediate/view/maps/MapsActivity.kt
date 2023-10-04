@@ -95,6 +95,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
     private fun getMyLastLocation() {
         if (checkPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) &&
             checkPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -130,10 +131,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
     }
 
-    fun getStoryLocation() {
+    private fun getStoryLocation() {
         mapsViewModel.storyData.observe(this, Observer { storyResponse ->
             storyResponse.listStory.forEach { data ->
-                val latLng = LatLng(data.lat ?: 0.0, data.lon ?: 0.0)
+                val latLng = LatLng(data.lat, data.lon)
                 mMap.addMarker(
                     MarkerOptions()
                         .position(latLng)
@@ -210,6 +211,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     companion object {
-        val TAG = "MapsActivity"
+        const val TAG = "MapsActivity"
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.storyintermediate.data.repo.MapsRepo
 import com.example.storyintermediate.di.Injection
 import com.example.storyintermediate.view.maps.MapsViewModel
-import com.example.storyintermediate.view.story.StoryViewModel
 
 class MapsModelFactory(private val repo: MapsRepo) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -14,6 +13,7 @@ class MapsModelFactory(private val repo: MapsRepo) : ViewModelProvider.NewInstan
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
                 MapsViewModel(repo) as T
             }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

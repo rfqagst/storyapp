@@ -3,10 +3,9 @@ package com.example.storyintermediate.data.repo
 import com.example.storyintermediate.api.response.StoryResponse
 import com.example.storyintermediate.api.retrofit.ApiService
 
-class MapsRepo(private val apiService: ApiService)  {
+class MapsRepo(private val apiService: ApiService) {
     suspend fun getStoryLocation(): StoryResponse {
-        val response = apiService.getStoriesWithLocation()
-        return response
+        return apiService.getStoriesWithLocation()
     }
 
     companion object {

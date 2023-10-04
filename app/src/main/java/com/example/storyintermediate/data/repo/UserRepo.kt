@@ -7,7 +7,7 @@ import com.example.storyintermediate.data.pref.UserModel
 import com.example.storyintermediate.data.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
 
-class UserRepo(private val apiService: ApiService, val userPreference: UserPreference) {
+class UserRepo(private val apiService: ApiService, private val userPreference: UserPreference) {
 
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)

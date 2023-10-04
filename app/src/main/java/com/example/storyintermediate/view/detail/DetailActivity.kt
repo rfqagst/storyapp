@@ -1,18 +1,14 @@
 package com.example.storyintermediate.view.detail
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.storyintermediate.R
 import com.example.storyintermediate.databinding.ActivityDetailBinding
 import com.example.storyintermediate.factory.StoryModelFactory
-import com.example.storyintermediate.view.story.StoryActivity
 
 class DetailActivity : AppCompatActivity() {
 
@@ -28,8 +24,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         val id = intent?.getStringExtra(EXTRA_ID) ?: ""
         detailViewModel.getStoryDetail(id)
-        detailViewModel.detailStory.observe(this, Observer
-        { _ ->
+        detailViewModel.detailStory.observe(this) { _ ->
             binding.apply {
                 tvName.text = detailViewModel.detailStory.value?.story?.name
                 tvDescription.text = detailViewModel.detailStory.value?.story?.description
@@ -37,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
                     .load(detailViewModel.detailStory.value?.story?.photoUrl)
                     .into(binding.imgBanner)
             }
-        })
+        }
 
         with(supportActionBar) {
             this?.setDisplayShowCustomEnabled(true)

@@ -32,7 +32,7 @@ import com.google.android.gms.location.LocationServices
 
 class AddStoryActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityAddStoryBinding
+    private lateinit var binding: ActivityAddStoryBinding
     private var currentImageUri: Uri? = null
     private var latitude: Double? = null
     private var longitude: Double? = null

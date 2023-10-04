@@ -29,8 +29,8 @@ class StoryListAdapter :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val story = getItem(position)
         if (story != null) {
-            holder.binding.tvName.text = story.name ?: "Nama tidak tersedia"
-            holder.binding.tvDescription.text = story.description ?: "Deskripsi tidak tersedia"
+            holder.binding.tvName.text = story.name
+            holder.binding.tvDescription.text = story.description
             Glide.with(holder.itemView.context)
                 .load(story.photoUrl)
                 .fitCenter()
@@ -65,7 +65,7 @@ class StoryListAdapter :
 
 
     companion object {
-         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
             override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
                 return oldItem.name == newItem.name
             }
