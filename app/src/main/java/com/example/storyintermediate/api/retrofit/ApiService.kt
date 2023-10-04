@@ -1,8 +1,6 @@
 package com.example.storyintermediate.api.retrofit
 
-import com.example.storyintermediate.api.response.AddStoryResponse
 import com.example.storyintermediate.api.response.DetailResponse
-import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.api.response.LoginResponse
 import com.example.storyintermediate.api.response.RegisterResponse
 import com.example.storyintermediate.api.response.StoryResponse
@@ -37,17 +35,17 @@ interface ApiService {
      suspend fun postStory(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-    ): AddStoryResponse
+    ): StoryResponse
 
 
     @Multipart
     @POST("stories")
     suspend fun postStoryWithLocation(
-        @Part file: MultipartBody.Part,
-        @Part("description") description: RequestBody,
-        @Part("latitude") latitude: RequestBody,
-        @Part("longitude") longitude: RequestBody
-    ): AddStoryResponse
+    @Part file: MultipartBody.Part,
+    @Part("description") description: RequestBody,
+    @Part("lat") lat: Double,
+    @Part("lon") lon: Double,
+    ): StoryResponse
 
     @GET("stories")
     suspend fun getStoriesWithLocation(

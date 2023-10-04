@@ -1,7 +1,5 @@
 package com.example.storyintermediate.view.maps
 
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.os.Bundle
@@ -12,15 +10,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.storyintermediate.R
-import com.example.storyintermediate.api.response.ListStoryItem
-import com.example.storyintermediate.data.repo.StoryRepo
 import com.example.storyintermediate.databinding.ActivityMapsBinding
-import com.example.storyintermediate.di.Injection
-import com.example.storyintermediate.factory.StoryModelFactory
-import com.example.storyintermediate.view.story.addstory.AddStoryActivity
+import com.example.storyintermediate.factory.MapsModelFactory
+import com.example.storyintermediate.utils.checkPermission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -40,7 +34,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val mapsViewModel by viewModels<MapsViewModel> {
-        StoryModelFactory.getInstance(this)
+        MapsModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
                     getMyLastLocation()
                 }
+
                 permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
                     // Only approximate location access granted.
                     getMyLastLocation()
@@ -100,41 +95,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
-
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-        private fun getMyLastLocation() {
-            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-                checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-            ) {
-                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        Log.d("getMyLastLocation","location != null $location")
-                        showStartMarker(location)
-                        intent.putExtra("EXTRA_LATITUDE", location.latitude)
-                        intent.putExtra("EXTRA_LONGITUDE", location.longitude)
-                    } else {
-                        Toast.makeText(
-                            this@MapsActivity,
-                            "Location is not found. Try Again",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+    private fun getMyLastLocation() {
+        if (checkPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    showStartMarker(location)
+                } else {
+                    Toast.makeText(
+                        this@MapsActivity,
+                        "Location is not found. Try Again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            } else {
-                requestPermissionLauncher.launch(
-                    arrayOf(
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
             }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
         }
+    }
 
     private fun showStartMarker(location: Location) {
         val startLocation = LatLng(location.latitude, location.longitude)
@@ -227,7 +211,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         val TAG = "MapsActivity"
-        const val EXTRA_LATITUDE = "extra_latitute"
-        const val EXTRA_LONGITUDE = "extra_longitude"
     }
 }

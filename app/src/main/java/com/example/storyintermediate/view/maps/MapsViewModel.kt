@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.storyintermediate.api.response.StoryResponse
+import com.example.storyintermediate.data.repo.MapsRepo
 import com.example.storyintermediate.data.repo.StoryRepo
 import kotlinx.coroutines.launch
 
-class MapsViewModel(private val repo: StoryRepo) : ViewModel() {
+class MapsViewModel(private val repo: MapsRepo) : ViewModel() {
 
     private val _storyData = MutableLiveData<StoryResponse>()
     val storyData: LiveData<StoryResponse> get() = _storyData

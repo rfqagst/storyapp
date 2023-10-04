@@ -75,7 +75,7 @@
             android:text="@string/submit_story"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/warningText" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -94,12 +94,11 @@
             android:id="@+id/warningText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionTextInput"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxLocation"
             tools:text="@string/warning_text" />
 
         <CheckBox

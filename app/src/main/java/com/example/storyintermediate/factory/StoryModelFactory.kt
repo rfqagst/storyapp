@@ -25,9 +25,6 @@ class StoryModelFactory(private val repo: StoryRepo) : ViewModelProvider.NewInst
                 AddStoryViewModel(repo) as T
             }
 
-            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
-                MapsViewModel(repo) as T
-            }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

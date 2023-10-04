@@ -1,6 +1,5 @@
 package com.example.storyintermediate.data.repo
 
-import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -10,7 +9,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.storyintermediate.ResultState
-import com.example.storyintermediate.api.response.AddStoryResponse
 import com.example.storyintermediate.api.response.DetailResponse
 import com.example.storyintermediate.api.response.ListStoryItem
 import com.example.storyintermediate.api.response.StoryResponse
@@ -53,10 +51,6 @@ class StoryRepo(
         return response
     }
 
-    suspend fun getStoryLocation(): StoryResponse {
-        val response = apiService.getStoriesWithLocation()
-        return response
-    }
     suspend fun getStoryDetail(id: String): DetailResponse {
         return apiService.getDetailStory(id)
     }
@@ -80,19 +74,19 @@ class StoryRepo(
         } catch (e: HttpException) {
 
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, AddStoryResponse::class.java)
-            emit(ResultState.Error(errorResponse.message.toString()))
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(ResultState.Error(errorResponse.message))
             Log.d("StoryRepo", "Gagal Upload")
         }
     }
 
 
-    fun postStoryWithLocation(imageFile: File, description: String, location: Location) = liveData {
+    fun postStoryWithLocation(imageFile: File, description: String, lat: Double, lon : Double) = liveData {
         emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val latitude = location.latitude.toString().toRequestBody("text/plain".toMediaType())
-        val longitude = location.longitude.toString().toRequestBody("text/plain".toMediaType())
+        val latt = lat
+        val lonn = lon
 
         val multipartBody = MultipartBody.Part.createFormData(
             "photo",
@@ -100,16 +94,17 @@ class StoryRepo(
             requestImageFile
         )
         try {
+            Log.d("StoryRepo", "Lokasi $lat dan $lon")
             val successResponse =
-                apiService.postStoryWithLocation(multipartBody, requestBody,latitude, longitude)
+                apiService.postStoryWithLocation(multipartBody, requestBody,latt, lonn)
             emit(ResultState.Success(successResponse))
             Log.d("StoryRepo", "Berhasil Upload")
         } catch (e: HttpException) {
-
+            Log.d("StoryRepo", "Lokasi $lat dan $lon")
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, AddStoryResponse::class.java)
-            emit(ResultState.Error(errorResponse.message.toString()))
-            Log.d("StoryRepo", "Gagal Upload")
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(ResultState.Error(errorResponse.message))
+            Log.d("StoryRepo", errorResponse.message)
         }
     }
 
