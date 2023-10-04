@@ -27,7 +27,9 @@ android {
         viewBinding = true
     }
 
-
+    testOptions.unitTests {
+        isReturnDefaultValues = true
+    }
 
     buildTypes {
         release {

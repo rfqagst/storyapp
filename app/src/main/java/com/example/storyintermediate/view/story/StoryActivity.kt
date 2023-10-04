@@ -36,8 +36,6 @@ class StoryActivity : AppCompatActivity() {
         }
         setupRecyclerView()
     }
-
-
     private fun setupRecyclerView() {
         adapter = StoryListAdapter()
         binding.rvStory.layoutManager = LinearLayoutManager(this)
@@ -46,7 +44,6 @@ class StoryActivity : AppCompatActivity() {
         storyViewModel.storyPagingData.observe(this) {
             adapter.submitData(lifecycle, it)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -1,4 +1,4 @@
-package com.example.storyintermediate.view.story
+package com.example.storyintermediate.view.logout
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.espresso.Espresso
@@ -11,6 +11,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.storyintermediate.EspressoIdlingResource
 import com.example.storyintermediate.R
 import com.example.storyintermediate.factory.StoryModelFactory
+import com.example.storyintermediate.view.story.StoryActivity
+import com.example.storyintermediate.view.story.StoryViewModel
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -44,8 +46,15 @@ class StoryActivityTest {
 
     @Test
     fun testLogout() {
-//        Espresso.openActionBarOverflowOrOptionsMenu(activityRule.scenario.state)
         Espresso.onView(ViewMatchers.withId(R.id.menu_logout))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed())).perform(ViewActions.click())
+    }
+
+    @Test
+    fun testLogoutRedirectsToLoginPage() {
+        Espresso.onView(ViewMatchers.withId(R.id.menu_logout))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed())).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.loginButton))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

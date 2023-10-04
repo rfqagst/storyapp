@@ -18,10 +18,7 @@ class DetailViewModel(private val repo: StoryRepo) : ViewModel() {
             try {
                 val response = repo.getStoryDetail(id)
                 _detailStory.value = response
-                Log.d("DetailViewModel", "id nya adalah $id")
-            } catch (e: Exception) {
-                Log.d("DetailViewModel", "id nya adalah $id")
-                Log.d("DetailViewModel", "Gagal dapat detail story: ${e.message}")
+            } catch (_: Exception) {
             }
         }
     }

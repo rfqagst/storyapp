@@ -1,6 +1,5 @@
 package com.example.storyintermediate.data.repo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.paging.ExperimentalPagingApi
@@ -70,13 +69,10 @@ class StoryRepo(
             val successResponse =
                 apiService.postStory(multipartBody, requestBody)
             emit(ResultState.Success(successResponse))
-            Log.d("StoryRepo", "Berhasil Upload")
         } catch (e: HttpException) {
-
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
             emit(ResultState.Error(errorResponse.message))
-            Log.d("StoryRepo", "Gagal Upload")
         }
     }
 
@@ -93,17 +89,13 @@ class StoryRepo(
                 requestImageFile
             )
             try {
-                Log.d("StoryRepo", "Lokasi $lat dan $lon")
                 val successResponse =
                     apiService.postStoryWithLocation(multipartBody, requestBody, lat, lon)
                 emit(ResultState.Success(successResponse))
-                Log.d("StoryRepo", "Berhasil Upload")
             } catch (e: HttpException) {
-                Log.d("StoryRepo", "Lokasi $lat dan $lon")
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
                 emit(ResultState.Error(errorResponse.message))
-                Log.d("StoryRepo", errorResponse.message)
             }
         }
 

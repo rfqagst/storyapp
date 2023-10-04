@@ -26,11 +26,11 @@ class MapsViewModel(private val repo: MapsRepo) : ViewModel() {
                         "lat nya adalah ${location.lat} dan lon nya ${location.lon}"
                     )
                 } else {
-                    Log.d("MapsViewModel", "Gagal dapat lokasi")
+//                    Log.d("MapsViewModel", "Gagal dapat lokasi")
                 }
 
             } catch (e: Exception) {
-                Log.d("MapsViewModel", "Gagal dapat Location")
+//                Log.d("MapsViewModel", "Gagal dapat Location")
             }
         }
     }

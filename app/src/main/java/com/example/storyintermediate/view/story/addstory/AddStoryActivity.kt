@@ -81,7 +81,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun showImage() {
         currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
             binding.imagePickerView.setImageURI(it)
         }
     }
@@ -216,8 +215,6 @@ class AddStoryActivity : AppCompatActivity() {
             }
 
             is ResultState.Success -> {
-                val response = result.data
-                Log.d("Image Success", "showImage: ${response.message}")
                 showLoading(false)
                 val intent = Intent(this, StoryActivity::class.java)
                 intent.flags =
@@ -227,7 +224,6 @@ class AddStoryActivity : AppCompatActivity() {
 
             is ResultState.Error -> {
                 val errorMessage = result.error
-                Log.d("Image Error", "showImage: $errorMessage")
                 binding.warningText.text = errorMessage
                 binding.warningText.setTextColor(
                     ContextCompat.getColor(

@@ -20,17 +20,12 @@ class StoryPagingSource(private val apiService: ApiService) : PagingSource<Int, 
             val position = params.key ?: INITIAL_PAGE_INDEX
             val response = apiService.getStoriesPaging(position, params.loadSize)
             val responseData = response.listStory
-            Log.d(
-                "StoryPagingSource",
-                "Loading page: $position, received ${responseData.size} items"
-            )
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
                 nextKey = if (responseData.isEmpty()) null else position + 1
             )
         } catch (exception: Exception) {
-            Log.e("StoryPagingSource", "Error loading data", exception)
             return LoadResult.Error(exception)
         }
     }

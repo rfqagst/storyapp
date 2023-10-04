@@ -2,7 +2,6 @@ package com.example.storyintermediate.view.story
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -35,11 +34,9 @@ class StoryListAdapter :
                 .load(story.photoUrl)
                 .fitCenter()
                 .into(holder.binding.imgBanner)
-            Log.d("StoryListAdapter", "id nya adalah ${story.id}")
         } else {
             holder.binding.tvName.text = "Nama tidak tersedia"
             holder.binding.tvDescription.text = "Deskripsi tidak tersedia"
-            Log.d("StoryListAdapter", "id nya adalah ${story?.id}")
         }
 
         with(holder) {
@@ -54,9 +51,6 @@ class StoryListAdapter :
                         androidx.core.util.Pair(binding.tvName, "tvName"),
                         androidx.core.util.Pair(binding.tvDescription, "tvDescription"),
                     )
-
-
-                Log.d("StoryListAdapter", "id nya adalah ${story?.id}")
                 itemView.context.startActivity(intentDetail, optionsCompat.toBundle())
 
             }

@@ -1,6 +1,5 @@
 package com.example.storyintermediate.view.signup
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +26,6 @@ class SignupViewModel(private val repo: UserRepo) : ViewModel() {
                 _isLoading.value = true
                 val registerResponse = repo.register(username, email, password)
                 _isLoading.value = false
-                Log.d("SignupActivity", "Berhasil mendaftar: ${registerResponse.message}")
                 registerStatus.postValue(true)
             } catch (e: HttpException) {
                 _isLoading.value = false
@@ -37,7 +35,6 @@ class SignupViewModel(private val repo: UserRepo) : ViewModel() {
                 registerStatus.postValue(false)
             } catch (e: Exception) {
                 _isLoading.value = false
-                Log.e("SignupActivity", "Kesalahan: ${e.message}")
                 errorMessage.postValue("Terjadi kesalahan saat pendaftaran")
                 registerStatus.postValue(false)
             }

@@ -38,7 +38,6 @@ class LoginViewModel(private val repo: UserRepo) : ViewModel() {
                     loginStatus.postValue(true)
                 }
                 else {
-                    Log.d("LOGIN_FAILED", "LOGIN FAILED")
                     loginStatus.postValue(false)
                 }
             } catch (e: HttpException) {
@@ -53,7 +52,6 @@ class LoginViewModel(private val repo: UserRepo) : ViewModel() {
             } catch (e: Exception) {
                 _isLoading.value = false
                 val errorMessageText = "An error occurred."
-                Log.e("LoginViewModel", errorMessageText, e)
                 errorMessage.postValue(errorMessageText)
             }
         }

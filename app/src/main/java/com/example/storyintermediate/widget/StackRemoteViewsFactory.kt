@@ -41,10 +41,8 @@ internal class StackRemoteViewsFactory(
             stories.clear()
             storiesBitmap.addAll(bitmap)
             stories.addAll(storyList)
-            Log.d("StoryWidget", "onDataSetChanged: Received ${stories.size} items")
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("StoryWidget", "Error in onDataSetChanged", e)
         }
     }
 
