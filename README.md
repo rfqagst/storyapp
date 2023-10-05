@@ -1,6 +1,10 @@
 # CITIZEN Story APP
 
 An innovative application built with a robust MVVM architecture, providing users with a seamless experience for sharing and viewing stories.
+<p float="center">
+  <img src="https://i.imgur.com/cZbOfwf.png" width="30%" />
+  <img src="https://i.imgur.com/SUU03fm.png" width="30%" /> 
+</p>
 
 ## Features
 
